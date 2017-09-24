@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ftzcode.dao.PidUserMapper">
+  <resultMap id="BaseResultMap" type="net.ftzcode.model.PidUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="avatarPath" jdbcType="VARCHAR" property="avatarpath" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="wxid" jdbcType="VARCHAR" property="wxid" />
+    <result column="qqid" jdbcType="VARCHAR" property="qqid" />
+    <result column="deviceToken" jdbcType="VARCHAR" property="devicetoken" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="datetime" jdbcType="TIMESTAMP" property="datetime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifydate" />
+  </resultMap>
+</mapper>
