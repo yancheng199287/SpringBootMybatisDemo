@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @SpringBootApplication
-@MapperScan(basePackages = "com.company.project.dao")
+@MapperScan(basePackages = "net.ftzcode.dao")
 public class Application {
     public static void main(String[] args) {
 
