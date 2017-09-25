@@ -6,6 +6,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
+
+import net.ftzcode.component.JsonMethodArgumentResolver;
 import net.ftzcode.core.Result;
 import net.ftzcode.core.ResultCode;
 import net.ftzcode.core.ServiceException;
@@ -15,8 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -47,6 +53,16 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
     @Value("${spring.profiles.active}")
     private String env;//当前激活的配置文件
+    
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		super.addArgumentResolvers(argumentResolvers);
+	    argumentResolvers.add(new JsonMethodArgumentResolver());
+	}
+    
+    
+    
 
     //使用阿里 FastJson 作为JSON MessageConverter
     @Override
@@ -58,16 +74,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 SerializerFeature.WriteNullNumberAsZero);//Number null -> 0
         converter.setFastJsonConfig(config);
         converter.setDefaultCharset(Charset.forName("UTF-8"));
+        List<MediaType> list=new ArrayList<MediaType>();
+        list.add(MediaType.APPLICATION_JSON_UTF8);
+        converter.setSupportedMediaTypes(list);
         converters.add(converter);
     }
 
 
-    //统一异常处理
+    
+    
+    
+
+	//统一异常处理
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
         exceptionResolvers.add(new HandlerExceptionResolver() {
             public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
-                Result result = new Result();
+              e.printStackTrace();
+            	Result result = new Result();
                 if (e instanceof ServiceException) {//业务失败的异常，如“账号或密码错误”
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                     logger.info(e.getMessage());

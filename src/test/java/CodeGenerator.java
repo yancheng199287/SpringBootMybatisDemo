@@ -17,9 +17,9 @@ import static net.ftzcode.core.ProjectConstant.*;
  */
 public class CodeGenerator {
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/identify_dev";
-    private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "";
+    private static final String JDBC_URL = "jdbc:mysql://192.168.0.109:3306/identify_dev";
+    private static final String JDBC_USERNAME = "itm";
+    private static final String JDBC_PASSWORD = "itm";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径

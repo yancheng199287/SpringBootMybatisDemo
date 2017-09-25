@@ -1,6 +1,5 @@
 package net.ftzcode.configurer;
 
-import net.ftzcode.component.shiro.CuteAuthorizationFilter;
 import net.ftzcode.component.shiro.CuteCacheSessionDao;
 import net.ftzcode.component.shiro.CuteRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -44,12 +43,6 @@ public class ShiroConfig {
     }
 
     @Bean
-    public CuteAuthorizationFilter cuteAuthorizationFilterBean() {
-        return new CuteAuthorizationFilter();
-    }
-
-
-    @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcherBean() {
         HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
         credentialsMatcher.setHashAlgorithmName("MD5");
@@ -71,7 +64,7 @@ public class ShiroConfig {
     //登录成功返回的
     @Bean
     public SimpleCookie rememberMeSessionBean() {
-        SimpleCookie cookie = new SimpleCookie("rememberMe");
+        SimpleCookie cookie = new SimpleCookie("jSessionID");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(86400 * 5);//5天
         return cookie;
@@ -81,7 +74,7 @@ public class ShiroConfig {
     @Bean
     public CookieRememberMeManager rememberManagerBean() {
         CookieRememberMeManager meManager = new CookieRememberMeManager();
-        meManager.setCipherKey(Base64.decode("aHR0dHA6Ly93d3cuNTIwY29kZS5uZXQgUVE6NjQ4ODMwNjA1"));
+        meManager.setCipherKey(Base64.decode("2AvVhdsgUs0FSA3SDFAdag=="));  
         meManager.setCookie(rememberMeSessionBean());
         return meManager;
     }
@@ -97,6 +90,7 @@ public class ShiroConfig {
         //开启sessionid cookies
         sessionManager.setSessionIdCookieEnabled(true);
         sessionManager.setSessionIdCookie(sessionIdCookieBean());
+        sessionManager.setSessionDAO(cuteCacheSessionDaoBean());
         return sessionManager;
     }
 

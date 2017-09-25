@@ -1,6 +1,9 @@
 package com.conpany.project;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
+
+import org.apache.shiro.crypto.AesCipherService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -9,6 +12,22 @@ import org.springframework.cache.caffeine.CaffeineCacheManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.shiro.codec.Base64;
+import org.apache.shiro.codec.CodecSupport;
+import org.apache.shiro.codec.Hex;
+import org.apache.shiro.crypto.*;
+import org.apache.shiro.crypto.hash.*;
+import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.util.SimpleByteSource;
+import org.junit.Test;
+
+import javax.crypto.Cipher;
+import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.EncodedKeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Created by WangZiHe on 2017/9/24
@@ -38,6 +57,30 @@ public class TestUtils {
         Cache cache = cacheManager.getCache("person");
         cache.put("author", "QQ648830605");
         return cacheManager;
+    }
+    
+    
+    @Test
+    public void testAesCipherService() {
+        AesCipherService aesCipherService = new AesCipherService();
+        aesCipherService.setKeySize(128);//设置key长度
+
+        //生成key
+        Key key = aesCipherService.generateNewKey();
+
+        String text = "hello";
+
+        //加密
+        String encrptText = aesCipherService.encrypt(text.getBytes(), key.getEncoded()).toHex();
+        //解密
+        String text2 = new String(aesCipherService.decrypt(Hex.decode(encrptText), key.getEncoded()).getBytes());
+
+        String asda=new String(Hex.encode(key.getEncoded()));
+        System.out.println("encrptText:"+encrptText+", text2:"+text2+",    key:"+asda);
+        
+        
+        
+        Assert.assertEquals(text, text2);
     }
 
 }
